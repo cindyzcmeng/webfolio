@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-moss: #61a200;
+  --color-moss-muted: #b9cb9f;
+  --color-glow: #e1fad3;
+
+  --font-heading: "Edu AU VIC WA NT Guides", cursive;
+  --font-body: "Alan Sans", sans-serif;
+  --font-card: "Jost", sans-serif;
+
+  --shadow-pebble: 8px 16px 24px 0px rgba(205, 205, 205, 0.35);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--color-moss);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-anchor: none;
+}
+
+* {
+  box-sizing: border-box;
+}

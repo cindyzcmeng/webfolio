@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.claude",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\assets\\originals",
+    "\\src\\assets\\pebbles",
+    "\\src\\components",
+    "\\src\\components\\envelope",
+    "\\src\\components\\resume",
+    "\\src\\types"
+  ],
+  "SelectedNode": "\\src\\components\\envelope\\BackgroundGlow.tsx",
+  "PreviewInSolutionExplorer": false
+}
