@@ -26,14 +26,14 @@ export default function AboutMe() {
           I'm currently based in the Netherlands as a Master of Design for Interaction student at
           Delft University of Technology (TU Delft).
         </p>
-        <div className="relative h-[220px] w-[260px] shrink-0 md:h-[260px] md:w-[300px]">
+        <div className="relative h-[260px] shrink-0 md:h-[320px]" style={{ aspectRatio: "264.81 / 292.836" }}>
           <div
             className="absolute inset-0"
             style={{
               maskImage: `url(${profileMask})`,
               WebkitMaskImage: `url(${profileMask})`,
-              maskSize: "cover",
-              WebkitMaskSize: "cover",
+              maskSize: "100% 100%",
+              WebkitMaskSize: "100% 100%",
               maskRepeat: "no-repeat",
               WebkitMaskRepeat: "no-repeat",
             }}
@@ -54,7 +54,8 @@ export default function AboutMe() {
             src={hiDoodle}
             alt=""
             aria-hidden
-            className="absolute -right-2 top-2 w-24 -rotate-[11deg] sm:w-28"
+            className="absolute -right-6 top-2 w-24 -rotate-[11deg] sm:w-28"
+            style={{ aspectRatio: "120.488 / 73.3834", height: "auto" }}
           />
         </div>
       </div>

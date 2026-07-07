@@ -15,7 +15,7 @@ export default function ExpandArrow({ expanded, visible, onToggle }: ExpandArrow
       aria-label={expanded ? "Collapse portfolio view" : "Expand portfolio view"}
       className="relative z-10 flex h-10 w-20 cursor-pointer items-center justify-center"
       initial={false}
-      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 12 }}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? 44 : 12 }}
       transition={{ duration: 0.4 }}
       style={{ pointerEvents: visible ? "auto" : "none" }}
       whileHover={{ scale: 1.1 }}

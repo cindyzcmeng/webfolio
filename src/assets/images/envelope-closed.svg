@@ -1,23 +1,21 @@
-<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 408.652 269.609" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="envelope">
-<g id="Vector 3" filter="url(#filter0_d_0_69)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M87.3261 87.3261L105.978 182.283H302.674L321.326 87.3261L223.68 149.568L207.06 160.161C205.393 161.224 203.26 161.224 201.592 160.161L184.972 149.568L87.3261 87.3261Z" fill="url(#paint0_radial_0_69)"/>
-<path d="M321.326 87.3261H204.326H87.3261L184.972 149.568L201.592 160.161C203.26 161.224 205.393 161.224 207.06 160.161L223.68 149.568L321.326 87.3261Z" fill="white"/>
-<path d="M302.674 182.283H105.978L87.3261 87.3261H204.326H321.326L302.674 182.283ZM223.68 149.568L207.06 160.161C205.393 161.224 203.26 161.224 201.592 160.161L184.972 149.568L87.3261 87.3261M105.978 182.283L184.972 149.568M302.674 182.283L223.68 149.568M321.326 87.3261L223.68 149.568" stroke="var(--stroke-0, white)" stroke-width="5.08696" stroke-linejoin="round"/>
-</g>
+<svg width="400" height="322" viewBox="0 0 400 322" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_13_1261)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M82.5435 144L101.196 238.957H297.891L316.543 144L218.897 206.242L202.278 216.835C200.61 217.898 198.477 217.898 196.809 216.835L180.19 206.242L82.5435 144Z" fill="url(#paint0_radial_13_1261)"/>
+<path d="M316.543 144H199.543H82.5435L180.19 206.242L196.809 216.835C198.477 217.898 200.61 217.898 202.278 216.835L218.897 206.242L316.543 144Z" fill="white"/>
+<path d="M297.891 238.957H101.196L82.5435 144H199.543H316.543L297.891 238.957ZM218.897 206.242L202.278 216.835C200.61 217.898 198.477 217.898 196.809 216.835L180.19 206.242L82.5435 144M101.196 238.957L180.19 206.242M297.891 238.957L218.897 206.242M316.543 144L218.897 206.242" stroke="white" stroke-width="5.08696" stroke-linejoin="round"/>
 </g>
 <defs>
-<filter id="filter0_d_0_69" x="3.09944e-06" y="1.90735e-06" width="408.652" height="269.609" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d_13_1261" x="0" y="61.4565" width="399.087" height="260.043" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset/>
-<feGaussianBlur stdDeviation="42.3913"/>
+<feGaussianBlur stdDeviation="40"/>
 <feComposite in2="hardAlpha" operator="out"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0.666667 0 0 0 0 0.945098 0 0 0 0 0.505882 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_69"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_69" result="shape"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_13_1261"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_13_1261" result="shape"/>
 </filter>
-<radialGradient id="paint0_radial_0_69" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(206.022 88.852) rotate(90) scale(94.4479 118.696)">
+<radialGradient id="paint0_radial_13_1261" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(201.239 145.526) rotate(90) scale(94.4479 118.696)">
 <stop stop-color="#A6F07B"/>
 <stop offset="1" stop-color="white"/>
 </radialGradient>
