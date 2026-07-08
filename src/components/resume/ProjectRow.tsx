@@ -29,7 +29,7 @@ export default function ProjectRow({ project, reverse }: ProjectRowProps) {
         <div
           className={`flex items-center gap-6 ${reverse ? "md:flex-row-reverse" : ""}`}
         >
-          <span className="hidden h-16 w-px shrink-0 bg-moss md:block" />
+          <span className="hidden h-24 w-1 shrink-0 bg-moss md:block" />
           <div className="flex flex-col gap-1">
             <h4 className="font-body text-2xl uppercase tracking-wide text-moss sm:text-3xl">
               {project.title}

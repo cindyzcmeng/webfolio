@@ -2,7 +2,7 @@ import { education } from "../../data/education";
 
 export default function EducationList() {
   return (
-    <section className="flex w-full flex-col items-start gap-8">
+    <section className="flex w-full flex-col items-start gap-12">
       <h3 className="font-heading text-2xl uppercase text-moss sm:text-3xl">education</h3>
       <div className="flex w-full flex-col gap-4">
         {education.map((entry) => (

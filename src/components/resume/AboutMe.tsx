@@ -5,11 +5,11 @@ import hiDoodle from "../../assets/images/hi-doodle.svg";
 
 export default function AboutMe() {
   return (
-    <section className="flex w-full flex-col items-start gap-8">
+    <section className="flex w-full flex-col items-start gap-16">
       <h2 className="font-heading text-3xl uppercase text-moss sm:text-4xl md:text-5xl">
         About ME
       </h2>
-      <div className="flex w-full flex-col items-center gap-8 md:flex-row md:items-center">
+      <div className="flex w-full flex-col items-center gap-16 md:flex-row md:items-center">
         <p className="font-body text-lg leading-relaxed text-moss md:flex-1 md:text-2xl">
           I am a product designer with a multicultural background, I am drawn to projects where
           physical and digital experiences meet, and bring a research-driven approach to
@@ -54,7 +54,7 @@ export default function AboutMe() {
             src={hiDoodle}
             alt=""
             aria-hidden
-            className="absolute -right-6 top-2 w-24 -rotate-[11deg] sm:w-28"
+            className="absolute -right-12 top-2 w-24 -rotate-[11deg] sm:w-28"
             style={{ aspectRatio: "120.488 / 73.3834", height: "auto" }}
           />
         </div>
