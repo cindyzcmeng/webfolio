@@ -13,8 +13,8 @@ export default function Envelope({ opened, onOpen }: EnvelopeProps) {
       type="button"
       onClick={onOpen}
       aria-label={opened ? "Close envelope" : "Open envelope"}
-      className="relative z-10 flex h-[150px] w-[170px] cursor-pointer items-center justify-center sm:h-[190px] sm:w-[216px]"
-      animate={{ scale: opened ? 1.08 : 1, y: opened ? 44 : 0 }}
+      className="relative z-10 flex cursor-pointer items-center justify-center w-1/3 min-w-[180px] max-w-[360px] aspect-[216/190] sm:min-w-[240px] sm:max-w-[400px] md:min-w-[300px] md:max-w-[500px]"
+      animate={{ scale: opened ? 1.08 : 1, y: opened ? 60 : 0 }}
       whileHover={{ scale: opened ? 1.12 : 1.04 }}
       whileTap={{ scale: opened ? 1.02 : 0.97 }}
       transition={{ type: "spring", stiffness: 170, damping: 20 }}

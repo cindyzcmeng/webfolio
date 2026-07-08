@@ -28,12 +28,12 @@ function rectOverlapsCircle(rect: Rect, cx: number, cy: number, r: number) {
 // A dome spread across the upper half of the stage — the envelope rests below
 // center, so no pebble should sit lower than it in the resting layout.
 const LAYOUT = [
-  { slug: "archive-drift", x: -342, y: -308, height: 150, ratio: 819 / 649, rotate: -6 },
-  { slug: "this-to-me", x: -414, y: -73, height: 145, ratio: 775 / 645, rotate: 5 },
-  { slug: "learn-and-record", x: 110, y: -384, height: 150, ratio: 813 / 688, rotate: -3 },
-  { slug: "bancall", x: -110, y: -384, height: 128, ratio: 770 / 688, rotate: 7 },
-  { slug: "barista", x: 342, y: -308, height: 148, ratio: 795 / 707, rotate: -5 },
-  { slug: "stampuzzle", x: 414, y: -73, height: 146, ratio: 794 / 681, rotate: 4 },
+  { slug: "archive-drift", x: -342, y: -308, height: 160, ratio: 819 / 649, rotate: -6 },
+  { slug: "this-to-me", x: -414, y: -73, height: 160, ratio: 775 / 645, rotate: 5 },
+  { slug: "learn-and-record", x: 110, y: -384, height: 160, ratio: 813 / 688, rotate: -3 },
+  { slug: "bancall", x: -110, y: -384, height: 160, ratio: 770 / 688, rotate: 7 },
+  { slug: "barista", x: 342, y: -308, height: 160, ratio: 795 / 707, rotate: -5 },
+  { slug: "stampuzzle", x: 414, y: -73, height: 160, ratio: 794 / 681, rotate: 4 },
 ] as const;
 
 const BASE_LAYOUT = LAYOUT.map((l) => ({ ...l, width: l.height * l.ratio }));
