@@ -1,6 +1,9 @@
 import { useRef, useState } from "react";
 import EnvelopeHero from "../components/envelope/EnvelopeHero";
 import ResumeSection from "../components/resume/ResumeSection";
+import { smoothScrollTo } from "../lib/smoothScroll";
+
+const SCROLL_DURATION = 900;
 
 export default function Home() {
   const [expanded, setExpanded] = useState(false);
@@ -9,14 +12,18 @@ export default function Home() {
 
   const handleToggleExpand = () => {
     const next = !expanded;
-    setExpanded(next);
     if (next) {
+      setExpanded(next);
       const heroHeight = heroRef.current?.getBoundingClientRect().height ?? 0;
       window.setTimeout(() => {
-        window.scrollTo({ top: heroHeight, behavior: "smooth" });
+        smoothScrollTo(heroHeight, SCROLL_DURATION);
       }, 350);
     } else {
-      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+      // Collapse after scrolling — shrinking mid-scroll fights the scroll animation.
+      smoothScrollTo(0, SCROLL_DURATION);
+      window.setTimeout(() => {
+        setExpanded(next);
+      }, SCROLL_DURATION);
     }
   };
 

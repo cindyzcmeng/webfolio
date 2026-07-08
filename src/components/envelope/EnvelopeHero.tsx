@@ -12,6 +12,16 @@ type EnvelopeHeroProps = {
 export default function EnvelopeHero({ expanded, onToggleExpand }: EnvelopeHeroProps) {
   const [opened, setOpened] = useState(false);
 
+  const handleEnvelopeToggle = () => {
+    setOpened((v) => {
+      const next = !v;
+      if (!next && expanded) {
+        onToggleExpand();
+      }
+      return next;
+    });
+  };
+
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden px-4 pb-10 pt-16">
       <BackgroundGlow />
@@ -22,7 +32,7 @@ export default function EnvelopeHero({ expanded, onToggleExpand }: EnvelopeHeroP
           style={{ zIndex: opened ? 10 : 20 }}
         >
           <div className="pointer-events-auto">
-            <Envelope opened={opened} onOpen={() => setOpened((v) => !v)} />
+            <Envelope opened={opened} onOpen={handleEnvelopeToggle} />
           </div>
           <div className="pointer-events-auto">
             <ExpandArrow expanded={expanded} visible={opened} onToggle={onToggleExpand} />
