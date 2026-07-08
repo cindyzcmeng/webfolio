@@ -2,18 +2,11 @@ import { motion } from "framer-motion";
 import type { Project } from "../../types/project";
 
 const TEXT_WIDTH = 320;
-// Collapsed clip still reveals a sliver of white past the photo — invisible
-// against the white page, but it gives the photo's own drop-shadow room to
-// bleed without being cut off by the clip edge.
-const SHADOW_ROOM = 26;
 const PILL_RADIUS = 999;
-// The photo is an organic blob shape that doesn't fill its own rectangular
-// bounding box — its silhouette curves inward well before reaching the box's
-// corners. The clip-path's photo-side corners were sharp (0px radius) right
-// at that bounding box, so the white panel behind poked out past the photo's
-// curve there. Round just those two corners instead of insetting the box —
-// insetting height cropped the text panel's content along with it.
-const PHOTO_CORNER_RADIUS = 32;
+// The polaroid is a baked, fully-opaque rectangle (white frame + its own
+// drop shadow already rendered into the pixels), unlike the old organic-blob
+// photo cutouts — so the clip-path can sit flush with the photo's bounding
+// box on that side with no extra inset or corner-rounding to hide a mismatch.
 
 type PebbleProps = {
   project: Project;
@@ -66,12 +59,10 @@ export default function Pebble({
     ? ((width / 2) / containerWidth) * 100
     : ((TEXT_WIDTH + width / 2) / containerWidth) * 100;
 
-  const collapsedClip = growRight
-    ? `inset(0 ${TEXT_WIDTH - SHADOW_ROOM}px 0 0 round ${PHOTO_CORNER_RADIUS}px ${PILL_RADIUS}px ${PILL_RADIUS}px ${PHOTO_CORNER_RADIUS}px)`
-    : `inset(0 0 0 ${TEXT_WIDTH - SHADOW_ROOM}px round ${PILL_RADIUS}px ${PHOTO_CORNER_RADIUS}px ${PHOTO_CORNER_RADIUS}px ${PILL_RADIUS}px)`;
+  const collapsedClip = growRight ? `inset(0 ${TEXT_WIDTH}px 0 0)` : `inset(0 0 0 ${TEXT_WIDTH}px)`;
   const expandedClip = growRight
-    ? `inset(0 0 0 0 round ${PHOTO_CORNER_RADIUS}px ${PILL_RADIUS}px ${PILL_RADIUS}px ${PHOTO_CORNER_RADIUS}px)`
-    : `inset(0 0 0 0 round ${PILL_RADIUS}px ${PHOTO_CORNER_RADIUS}px ${PHOTO_CORNER_RADIUS}px ${PILL_RADIUS}px)`;
+    ? `inset(0 0 0 0 round 0px ${PILL_RADIUS}px ${PILL_RADIUS}px 0px)`
+    : `inset(0 0 0 0 round ${PILL_RADIUS}px 0px 0px ${PILL_RADIUS}px)`;
 
   // Container position tracks the photo's fixed edge, so the photo itself
   // never moves — only the reveal grows outward from it.
@@ -98,14 +89,6 @@ export default function Pebble({
         // silently swallow clicks meant for a neighboring pebble.
         pointerEvents: "none",
         transformOrigin: `${photoCenterPercent}% 50%`,
-        // The shadow lives on this outer, unclipped wrapper. Putting both
-        // clip-path and filter on the same element makes Chromium clip the
-        // shadow's bleed to that same shape (mirrors the earlier mask+filter
-        // bug) — so clip-path is isolated to the inner button below instead.
-        filter: hovered
-          ? "drop-shadow(10px 20px 28px rgba(205,205,205,0.4))"
-          : "drop-shadow(8px 16px 24px rgba(205,205,205,0.35))",
-        transition: "filter 0.3s ease",
       }}
       initial={false}
       animate={{
@@ -142,10 +125,8 @@ export default function Pebble({
         }}
         tabIndex={interactive ? 0 : -1}
       >
-        {/* Transparent until hovered — otherwise the shadow above would pick up
-            this opaque rectangle (even the sliver the collapsed clip reveals for
-            shadow room) and cast a rectangular halo, not the photo's own organic
-            silhouette. */}
+        {/* Transparent until hovered — this is the text panel's backdrop, kept
+            invisible while collapsed since the panel area itself is clipped away. */}
         <div
           className="absolute inset-0 bg-white"
           style={{ opacity: hovered ? 1 : 0, transition: "opacity 0.25s ease" }}
