@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { projects } from "../data/projects";
-import { getSavedScrollY } from "../lib/scrollMemory";
+import arrowSrc from "../assets/icons/arrow.svg";
 
 const SECTIONS = [
   { key: "overview", label: "Project Overview" },
@@ -20,22 +20,31 @@ export default function ProjectDetailPage({ overlay = false }: ProjectDetailPage
   const navigate = useNavigate();
   const project = projects.find((p) => p.slug === slug);
 
+  const backLinkClassName =
+    "group flex w-fit cursor-pointer items-center gap-2 self-start font-body text-base text-moss-muted outline-none transition-colors hover:text-moss focus-visible:text-moss focus-visible:ring-2 focus-visible:ring-moss/40 focus-visible:ring-offset-2";
+
+  const BackArrow = () => (
+    <img
+      src={arrowSrc}
+      alt=""
+      className="h-4 w-8 rotate-90 transition-transform duration-200 ease-out group-hover:-translate-x-1 group-active:translate-x-0"
+    />
+  );
+
   const BackLink = () =>
     overlay ? (
       <button
         type="button"
-        onClick={() => {
-          navigate(-1);
-          const y = getSavedScrollY();
-          requestAnimationFrame(() => window.scrollTo(0, y));
-        }}
-        className="font-body text-base text-moss-muted hover:text-moss"
+        onClick={() => navigate(-1)}
+        className={backLinkClassName}
       >
-        ← Back to portfolio
+        <BackArrow />
+        Back to homepage
       </button>
     ) : (
-      <Link to="/" className="font-body text-base text-moss-muted hover:text-moss">
-        ← Back to portfolio
+      <Link to="/" className={backLinkClassName}>
+        <BackArrow />
+        Back to homepage
       </Link>
     );
 

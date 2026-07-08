@@ -15,7 +15,7 @@ export default function App() {
   return (
     <>
       <Routes location={backgroundLocation ?? location}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home overlayOpen={Boolean(backgroundLocation)} />} />
         <Route path="/projects/:slug" element={<ProjectDetailPage />} />
       </Routes>
 

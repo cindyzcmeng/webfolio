@@ -4,3 +4,8 @@ dist/
 .env.local
 .vscode/
 .DS_Store
+
+# Claude Code scaffolding — not part of the shipped project
+CLAUDE.md
+.claude/
+.claude-local/

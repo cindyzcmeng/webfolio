@@ -11,15 +11,23 @@ type EnvelopeHeroProps = {
 
 export default function EnvelopeHero({ expanded, onToggleExpand }: EnvelopeHeroProps) {
   const [opened, setOpened] = useState(false);
+  const [arrowUsed, setArrowUsed] = useState(false);
 
   const handleEnvelopeToggle = () => {
     setOpened((v) => {
       const next = !v;
-      if (!next && expanded) {
+      // Before the arrow's one-time reveal, the envelope only opens/closes
+      // itself. After that, it becomes the expand/collapse toggle.
+      if (arrowUsed && next !== expanded) {
         onToggleExpand();
       }
       return next;
     });
+  };
+
+  const handleArrowClick = () => {
+    setArrowUsed(true);
+    onToggleExpand();
   };
 
   return (
@@ -35,7 +43,7 @@ export default function EnvelopeHero({ expanded, onToggleExpand }: EnvelopeHeroP
             <Envelope opened={opened} onOpen={handleEnvelopeToggle} />
           </div>
           <div className="pointer-events-auto">
-            <ExpandArrow expanded={expanded} visible={opened} onToggle={onToggleExpand} />
+            <ExpandArrow expanded={expanded} visible={opened && !expanded && !arrowUsed} onToggle={handleArrowClick} />
           </div>
         </div>
         <PebbleCluster opened={opened} />

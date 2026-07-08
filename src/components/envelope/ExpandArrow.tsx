@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import arrowSrc from "../../assets/icons/arrow.svg";
+import { EASE_IN_OUT_CUBIC, EXPAND_SCROLL_DURATION_MS } from "../../lib/motion";
 
 type ExpandArrowProps = {
   expanded: boolean;
@@ -7,27 +8,30 @@ type ExpandArrowProps = {
   onToggle: () => void;
 };
 
+const REST_Y = 44;
+
 export default function ExpandArrow({ expanded, visible, onToggle }: ExpandArrowProps) {
+  // Once used, the arrow sinks down in pace with the page scroll rather than
+  // snapping back up — it's a one-time affordance, not a toggle.
+  const hiddenY = expanded ? REST_Y + 40 : 12;
+  const transition = expanded
+    ? { duration: EXPAND_SCROLL_DURATION_MS / 1000, ease: EASE_IN_OUT_CUBIC }
+    : { duration: 0.4 };
+
   return (
     <motion.button
       type="button"
       onClick={onToggle}
-      aria-label={expanded ? "Collapse portfolio view" : "Expand portfolio view"}
+      aria-label="Expand portfolio view"
       className="relative z-10 flex h-10 w-20 cursor-pointer items-center justify-center"
       initial={false}
-      animate={{ opacity: visible ? 1 : 0, y: visible ? 44 : 12 }}
-      transition={{ duration: 0.4 }}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? REST_Y : hiddenY }}
+      transition={transition}
       style={{ pointerEvents: visible ? "auto" : "none" }}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={visible ? { scale: 1.1 } : undefined}
+      whileTap={visible ? { scale: 0.95 } : undefined}
     >
-      <motion.img
-        src={arrowSrc}
-        alt=""
-        className="h-full w-full object-contain"
-        animate={{ rotate: expanded ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 160, damping: 16 }}
-      />
+      <img src={arrowSrc} alt="" className="h-full w-full object-contain" />
     </motion.button>
   );
 }
