@@ -59,10 +59,19 @@ export default function Pebble({
     ? ((width / 2) / containerWidth) * 100
     : ((TEXT_WIDTH + width / 2) / containerWidth) * 100;
 
+  // Sharp rectangle only — no `round` here. A corner radius on this shape
+  // would have to animate alongside the inset (photo reveal width), and the
+  // two interpolate independently: partway through the transition the
+  // radius's overlap-corrected reach can exceed the sliver of text-zone
+  // still uncovered, biting a rounded notch into the photo's own edge. The
+  // pill cap lives on the white backdrop div instead (see below), where its
+  // rounding is fixed to that div's own static box and can never reach the
+  // photo, however far the reveal has animated.
   const collapsedClip = growRight ? `inset(0 ${TEXT_WIDTH}px 0 0)` : `inset(0 0 0 ${TEXT_WIDTH}px)`;
-  const expandedClip = growRight
-    ? `inset(0 0 0 0 round 0px ${PILL_RADIUS}px ${PILL_RADIUS}px 0px)`
-    : `inset(0 0 0 0 round ${PILL_RADIUS}px 0px 0px ${PILL_RADIUS}px)`;
+  const expandedClip = "inset(0 0 0 0)";
+  const pillBorderRadius = growRight
+    ? `0px ${PILL_RADIUS}px ${PILL_RADIUS}px 0px`
+    : `${PILL_RADIUS}px 0px 0px ${PILL_RADIUS}px`;
 
   // Container position tracks the photo's fixed edge, so the photo itself
   // never moves — only the reveal grows outward from it.
@@ -126,10 +135,18 @@ export default function Pebble({
         tabIndex={interactive ? 0 : -1}
       >
         {/* Transparent until hovered — this is the text panel's backdrop, kept
-            invisible while collapsed since the panel area itself is clipped away. */}
+            invisible while collapsed since the panel area itself is clipped away.
+            The pill-cap rounding lives here (not on the outer clip-path) — this
+            div's box is always the full container size, so the rounded corner
+            sits at a fixed spot safely inside the text-only zone regardless of
+            how far the outer clip has revealed. */}
         <div
           className="absolute inset-0 bg-white"
-          style={{ opacity: hovered ? 1 : 0, transition: "opacity 0.25s ease" }}
+          style={{
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.25s ease",
+            borderRadius: pillBorderRadius,
+          }}
         />
         <div
           className="absolute inset-y-0 flex items-center gap-4"
