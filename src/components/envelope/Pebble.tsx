@@ -168,7 +168,7 @@ export default function Pebble({
             </p>
             <p className="font-body text-sm leading-snug text-moss">{project.summary}</p>
             <p className="font-body text-xs uppercase leading-snug tracking-wide text-moss-muted">
-              {project.tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}
+              {project.tags.map((tag) => `#${tag}`).join(" ")}
             </p>
           </div>
         </div>

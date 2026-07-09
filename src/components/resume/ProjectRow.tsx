@@ -27,16 +27,16 @@ export default function ProjectRow({ project, reverse }: ProjectRowProps) {
       </div>
       <div className={`flex flex-1 flex-col gap-6 ${reverse ? "md:items-end md:text-right" : ""}`}>
         <div
-          className={`flex items-center gap-6 ${reverse ? "md:flex-row-reverse" : ""}`}
+          className={`flex items-stretch gap-6 ${reverse ? "md:flex-row-reverse" : ""}`}
         >
-          <span className="hidden h-24 w-1 shrink-0 bg-moss md:block" />
+          <span className="hidden w-1 shrink-0 bg-moss md:block" />
           <div className="flex flex-col gap-1">
             <h4 className="font-body text-2xl uppercase tracking-wide text-moss sm:text-3xl">
               {project.title}
             </h4>
             <p className="font-body text-lg text-moss sm:text-xl">{project.summary}</p>
             <p className="font-body text-sm uppercase tracking-wide text-moss-muted sm:text-base">
-              {project.tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}
+              {project.tags.map((tag) => `#${tag}`).join(" ")}
             </p>
           </div>
         </div>
