@@ -14,9 +14,6 @@ import bancallImage from "../assets/originals/bancall.jpg";
 import baristaImage from "../assets/originals/barista.jpg";
 import stampuzzleImage from "../assets/originals/stampuzzle.jpg";
 
-const placeholderSummary =
-  "A paragraph briefly introducing the project. Including type of project, for example, interactive media, or mobile application. The text should clearly explain the design goal of this project, i.e. its intended effect, the design brief, and the result.";
-
 export const projects: Project[] = [
   {
     slug: "archive-drift",
