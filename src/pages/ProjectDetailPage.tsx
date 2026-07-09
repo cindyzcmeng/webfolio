@@ -61,7 +61,7 @@ export default function ProjectDetailPage({ overlay = false }: ProjectDetailPage
         <h1 className="font-heading text-4xl uppercase text-moss sm:text-5xl">{project.title}</h1>
         <p className="font-body text-xl text-moss sm:text-2xl">{project.summary}</p>
         <p className="font-body text-sm uppercase tracking-wide text-moss-muted">
-          {project.tags.map((tag) => `#${tag.replace(/\s+/g, "")}`).join(" ")}
+          {project.tags.map((tag) => `#${tag}`).join(" ")}
         </p>
       </header>
 
