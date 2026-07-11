@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Programme";
+  src: url("./assets/fonts/Programme-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Programme";
+  src: url("./assets/fonts/Programme-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Programme Bold Alt";
+  src: url("./assets/fonts/Programme-Bold-Alt.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-moss: #61a200;
   --color-moss-muted: #b9cb9f;
@@ -8,6 +32,8 @@
   --font-heading: "Edu AU VIC WA NT Guides", cursive;
   --font-body: "Alan Sans", sans-serif;
   --font-card: "Jost", sans-serif;
+  --font-programme: "Programme", "Alan Sans", sans-serif;
+  --font-programme-alt: "Programme Bold Alt", "Programme", "Alan Sans", sans-serif;
 
   --shadow-pebble: 8px 16px 24px 0px rgba(205, 205, 205, 0.35);
 }
