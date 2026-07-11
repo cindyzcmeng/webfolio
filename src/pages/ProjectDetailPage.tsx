@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { projects } from "../data/projects";
 import arrowSrc from "../assets/icons/arrow.svg";
+import { useScrollLock } from "../hooks/useScrollLock";
 
 const SECTIONS = [
   { key: "overview", label: "Project Overview" },
@@ -16,6 +17,8 @@ type ProjectDetailPageProps = {
 };
 
 export default function ProjectDetailPage({ overlay = false }: ProjectDetailPageProps) {
+  useScrollLock(overlay);
+
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const project = projects.find((p) => p.slug === slug);

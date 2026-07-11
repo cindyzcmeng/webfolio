@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useScrollLock } from "../hooks/useScrollLock";
 
 import heroImage from "../assets/bancall/bancall-concept.png";
 import ardoinesEnvisionRender from "../assets/bancall/ardoines-envision-render.png";
@@ -271,6 +272,8 @@ function TableOfContents() {
 }
 
 export default function BancallDetailPage({ overlay = false }: BancallDetailPageProps) {
+  useScrollLock(overlay);
+
   const content = (
     <div className="mx-auto flex max-w-[1160px] flex-col gap-8 px-6 py-16 sm:px-10">
       <BackLink overlay={overlay} />
