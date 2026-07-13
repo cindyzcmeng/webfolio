@@ -24,6 +24,39 @@
   font-display: swap;
 }
 
+/* Fonts not available on Google Fonts — self-hosted from provided files. */
+@font-face {
+  font-family: "Gotham Rounded";
+  src: url("./assets/fonts/gothamrnd_bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("./assets/fonts/centurygothic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Avenir Next Rounded Pro";
+  src: url("./assets/fonts/AvenirNextRoundedPro-Bold.OTF") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Avenir Next Rounded Pro";
+  src: url("./assets/fonts/AvenirNextRoundedPro-Reg.OTF") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-moss: #61a200;
   --color-moss-muted: #b9cb9f;
@@ -34,6 +67,13 @@
   --font-card: "Jost", sans-serif;
   --font-programme: "Programme", "Alan Sans", sans-serif;
   --font-programme-alt: "Programme Bold Alt", "Programme", "Alan Sans", sans-serif;
+
+  --font-gotham-rounded: "Gotham Rounded", sans-serif;
+  --font-century-gothic: "Century Gothic", sans-serif;
+  --font-source-code-pro: "Source Code Pro", monospace;
+  --font-outfit: "Outfit", sans-serif;
+  --font-eb-garamond: "EB Garamond", serif;
+  --font-avenir-rounded: "Avenir Next Rounded Pro", sans-serif;
 
   --shadow-pebble: 8px 16px 24px 0px rgba(205, 205, 205, 0.35);
 }
