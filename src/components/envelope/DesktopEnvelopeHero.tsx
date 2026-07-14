@@ -4,12 +4,16 @@ import Envelope from "./Envelope";
 import PebbleCluster from "./PebbleCluster";
 import ExpandArrow from "./ExpandArrow";
 
-type EnvelopeHeroProps = {
+type DesktopEnvelopeHeroProps = {
   expanded: boolean;
   onToggleExpand: () => void;
 };
 
-export default function EnvelopeHero({ expanded, onToggleExpand }: EnvelopeHeroProps) {
+// Mouse-driven experience: click to open, hover to preview and repel
+// pebbles. Kept as its own component (rather than branching inline) so the
+// scroll-driven mobile variant (see MobileEnvelopeHero) can't regress this
+// by accident.
+export default function DesktopEnvelopeHero({ expanded, onToggleExpand }: DesktopEnvelopeHeroProps) {
   const [opened, setOpened] = useState(false);
   const [arrowUsed, setArrowUsed] = useState(false);
 

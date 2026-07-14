@@ -220,11 +220,11 @@ export default function PebbleCluster({ opened }: PebbleClusterProps) {
 
   return (
     <div
-      className="relative mx-auto h-[280px] w-[330px] sm:h-[450px] sm:w-[531px] md:h-[620px] md:w-[732px] lg:h-[800px] lg:w-[944px] xl:h-[1000px] xl:w-[1180px]"
+      className="relative mx-auto h-[220px] w-[260px] min-[380px]:h-[280px] min-[380px]:w-[330px] sm:h-[450px] sm:w-[531px] md:h-[620px] md:w-[732px] lg:h-[800px] lg:w-[944px] xl:h-[1000px] xl:w-[1180px]"
       style={{ pointerEvents: interactive ? "auto" : "none" }}
     >
       <div
-        className="absolute left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2 scale-[0.28] sm:scale-[0.45] md:scale-[0.62] lg:scale-[0.8] xl:scale-100"
+        className="absolute left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2 scale-[0.22] min-[380px]:scale-[0.28] sm:scale-[0.45] md:scale-[0.62] lg:scale-[0.8] xl:scale-100"
         style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
       >
         {positions.map((layout, i) => {

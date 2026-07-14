@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useScrollLock } from "../hooks/useScrollLock";
 
 import heroImage from "../assets/bancall/bancall-concept.png";
@@ -165,7 +166,7 @@ function Figure({ images, equal = false }: { images: FigureImage[]; equal?: bool
             aspectRatio: `${img.ratio}`,
           }}
         >
-          <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />
+          <img src={img.src} alt={img.alt} className="h-full w-full object-contain" />
         </div>
       ))}
     </div>
@@ -182,7 +183,7 @@ function KineticTwo() {
   ];
   return (
     <div className="relative w-full overflow-hidden" style={{ flex: "0 1 57.6193%", aspectRatio: "1282/259" }}>
-      <img src={kinetic2} alt="" className="h-full w-full object-cover" />
+      <img src={kinetic2} alt="" className="h-full w-full object-contain" />
       {insets.map((inset) => (
         <div
           key={inset.src}
@@ -194,7 +195,7 @@ function KineticTwo() {
             height: "81.485%",
           }}
         >
-          <img src={inset.src} alt={inset.alt} className="h-full w-full object-cover" />
+          <img src={inset.src} alt={inset.alt} className="h-full w-full object-contain" />
         </div>
       ))}
     </div>
@@ -209,9 +210,43 @@ function Section({ id, children }: { id: string; children: React.ReactNode }) {
   );
 }
 
+// Plain render helper, not a component — TableOfContents re-renders on every
+// scroll-driven activeId change, and if this were a nested component
+// definition instead, its distinct identity each render would force React to
+// remount the links, snapping the active-underline transition instead of
+// animating it.
+function renderTocLinks(
+  activeId: string,
+  onNavigate: (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => void,
+  showDash: boolean
+) {
+  return TOC_SECTIONS.map(({ id, tag }) => {
+    const active = activeId === id;
+    return (
+      <a
+        key={id}
+        href={`#${id}`}
+        onClick={onNavigate(id)}
+        className="font-programme flex items-center gap-3 text-sm lowercase tracking-wide transition-colors"
+        style={{ color: active ? ACCENT : MUTE }}
+      >
+        {showDash && (
+          <span
+            className="h-px shrink-0 transition-all duration-200"
+            style={{ backgroundColor: active ? ACCENT : MUTE, width: active ? "24px" : "12px" }}
+          />
+        )}
+        {tag}
+      </a>
+    );
+  });
+}
+
 function TableOfContents() {
   const [activeId, setActiveId] = useState<string>(TOC_SECTIONS[0].id);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const mobileDrawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const targets = TOC_SECTIONS.map(({ id }) => document.getElementById(id)).filter(
@@ -238,36 +273,86 @@ function TableOfContents() {
     return () => observer.disconnect();
   }, []);
 
+  // Closing on outside tap keeps the drawer feeling like a real popover
+  // rather than something the user has to hunt for a dismiss button on.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (mobileDrawerRef.current?.contains(event.target as Node)) return;
+      setIsMobileMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [isMobileMenuOpen]);
+
   const handleClick = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <nav
-      ref={navRef}
-      aria-label="Table of contents"
-      className="top-[15vh] z-40 hidden w-32 flex-col gap-4 self-start 2xl:sticky 2xl:flex"
-    >
-      {TOC_SECTIONS.map(({ id, tag }) => {
-        const active = activeId === id;
-        return (
-          <a
-            key={id}
-            href={`#${id}`}
-            onClick={handleClick(id)}
-            className="font-programme flex items-center gap-3 text-sm lowercase tracking-wide transition-colors"
-            style={{ color: active ? ACCENT : MUTE }}
+    <>
+      {/* Desktop — unchanged sticky sidebar */}
+      <nav
+        ref={navRef}
+        aria-label="Table of contents"
+        className="top-[15vh] z-40 hidden w-32 flex-col gap-4 self-start lg:sticky lg:flex"
+      >
+        {renderTocLinks(activeId, handleClick, true)}
+      </nav>
+
+      {/* Mobile/tablet — floating button that expands into a compact drawer.
+          Portaled to the body so its `fixed` positioning is always relative
+          to the viewport, not a transformed ancestor (the overlay route wraps
+          this page in an animated motion.div, which would otherwise hijack
+          the containing block for any nested `fixed` element). */}
+      {createPortal(
+        <div
+          ref={mobileDrawerRef}
+          className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-6 z-50 flex flex-col items-end gap-3 lg:hidden"
+        >
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.nav
+                aria-label="Table of contents"
+                initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                className="flex w-44 flex-col gap-3 rounded-2xl border border-black/5 bg-white p-4 shadow-xl"
+              >
+                {renderTocLinks(activeId, handleClick, false)}
+              </motion.nav>
+            )}
+          </AnimatePresence>
+
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label={isMobileMenuOpen ? "Close table of contents" : "Open table of contents"}
+            className="flex h-12 w-12 shrink-0 touch-manipulation items-center justify-center rounded-full shadow-lg transition-transform active:scale-95"
+            style={{ backgroundColor: ACCENT }}
           >
-            <span
-              className="h-px shrink-0 transition-all duration-200"
-              style={{ backgroundColor: active ? ACCENT : MUTE, width: active ? "24px" : "12px" }}
-            />
-            {tag}
-          </a>
-        );
-      })}
-    </nav>
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="white" strokeWidth={2} strokeLinecap="round">
+              {isMobileMenuOpen ? (
+                <path d="M6 6l12 12M18 6L6 18" />
+              ) : (
+                <>
+                  <path d="M4 7h16" />
+                  <path d="M4 12h16" />
+                  <path d="M4 17h10" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>,
+        document.body
+      )}
+    </>
   );
 }
 
@@ -293,7 +378,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
           </div>
         </div>
         <div className="w-full overflow-hidden" style={{ aspectRatio: "1164/965" }}>
-          <img src={heroImage} alt="Bancall concept illustration" className="h-full w-full object-cover" />
+          <img src={heroImage} alt="Bancall concept illustration" className="h-full w-full object-contain" />
         </div>
       </div>
 
@@ -302,7 +387,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
         the grid starts exactly at "Background" — so the TOC's own top edge
         lines up with the first section instead of the hero above it.
       */}
-      <div className="grid grid-cols-1 gap-y-24 2xl:grid-cols-[128px_1fr] 2xl:gap-x-24">
+      <div className="grid grid-cols-1 gap-y-24 lg:grid-cols-[128px_1fr] lg:gap-x-24">
         <TableOfContents />
         <div className="flex flex-col gap-24">
         {/* Background */}
@@ -403,7 +488,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               </Body>
             </div>
             <div className="flex-1 overflow-hidden">
-              <img src={waterLand} alt="Water to land concept diagram" className="h-full w-full object-cover" />
+              <img src={waterLand} alt="Water to land concept diagram" className="h-full w-full object-contain" />
             </div>
           </div>
 
@@ -464,7 +549,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               . Once the concept is defined, iterations of ideas began to form through rough sketches.
             </Body>
             <div className="w-full overflow-hidden">
-              <img src={ideation} alt="Ideation sketches" className="h-full w-full object-cover" />
+              <img src={ideation} alt="Ideation sketches" className="h-full w-full object-contain" />
             </div>
           </div>
 
@@ -477,7 +562,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               </LabeledRow>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
                 <div className="w-full overflow-hidden" style={{ flex: "0 1 42.3807%", aspectRatio: "943/259" }}>
-                  <img src={kinetic1} alt="Kinetic sculpture experiment" className="h-full w-full object-cover" />
+                  <img src={kinetic1} alt="Kinetic sculpture experiment" className="h-full w-full object-contain" />
                 </div>
                 <KineticTwo />
               </div>
@@ -500,7 +585,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
                 We modeled and 3D printed the prototype to demonstrate the scenario.
               </LabeledRow>
               <div className="w-full overflow-hidden">
-                <img src={threeDPrint1} alt="3D printed prototype process" className="h-full w-full object-cover" />
+                <img src={threeDPrint1} alt="3D printed prototype process" className="h-full w-full object-contain" />
               </div>
             </div>
 
@@ -509,7 +594,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
                 We invited our classmates to play around with the wooden prototype. Through their behavior, we found potentials of new ways of interaction.
               </LabeledRow>
               <div className="w-full overflow-hidden">
-                <img src={wood} alt="Wooden prototype" className="h-full w-full object-cover" />
+                <img src={wood} alt="Wooden prototype" className="h-full w-full object-contain" />
               </div>
             </div>
 
@@ -523,21 +608,21 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
                 entertaining.
               </Body>
               <div className="w-full overflow-hidden">
-                <img src={feedback} alt="User feedback quotes" className="h-full w-full object-cover" />
+                <img src={feedback} alt="User feedback quotes" className="h-full w-full object-contain" />
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
               <Label>Potential Risks:</Label>
               <div className="w-full overflow-hidden">
-                <img src={risk} alt="Potential safety risks" className="h-full w-full object-cover" />
+                <img src={risk} alt="Potential safety risks" className="h-full w-full object-contain" />
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
               <Label>Potential Opportunities:</Label>
               <div className="w-full overflow-hidden">
-                <img src={opportunity} alt="Potential opportunities" className="h-full w-full object-cover" />
+                <img src={opportunity} alt="Potential opportunities" className="h-full w-full object-contain" />
               </div>
             </div>
           </div>
@@ -561,7 +646,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               ]}
             />
             <div className="w-full overflow-hidden mt-6">
-              <video src={loopDisplay} autoPlay loop muted playsInline className="h-full w-full object-cover" />
+              <video src={loopDisplay} autoPlay loop muted playsInline className="h-full w-full object-contain" />
             </div>
           </div>
 
@@ -576,7 +661,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               <img
                 src={movement}
                 alt="Movement types — Face-to-Face, Teeter Totter, Balance Board"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </div>
           </div>
@@ -603,7 +688,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               The seating volume is built with stacked wooden offcuts, rigid foam and expansive spray foam. The outer shell is sculpted 
               using plaster-saturated cotton cloth and completed with a smooth plaster finish.</Body>
             <div className="w-full overflow-hidden">
-              <img src={finalPrototype} alt="Final prototype making process" className="h-full w-full object-cover" />
+              <img src={finalPrototype} alt="Final prototype making process" className="h-full w-full object-contain" />
             </div>
           </div>
 
@@ -613,7 +698,7 @@ export default function BancallDetailPage({ overlay = false }: BancallDetailPage
               <img
                 src={implementation}
                 alt="Bancall implementation scenario rendering"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </div>
           </div>
