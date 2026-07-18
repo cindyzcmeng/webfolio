@@ -3,7 +3,7 @@ import ProjectRow from "./ProjectRow";
 
 export default function ProjectsList() {
   return (
-    <section className="flex w-full flex-col items-start gap-16">
+    <section id="projects" className="flex w-full flex-col items-start gap-16">
       <h3 className="font-heading text-3xl uppercase text-moss sm:text-4xl md:text-5xl">
         Projects
       </h3>

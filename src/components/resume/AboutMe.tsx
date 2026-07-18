@@ -5,7 +5,7 @@ import hiDoodle from "../../assets/images/hi-doodle.svg";
 
 export default function AboutMe() {
   return (
-    <section className="flex w-full flex-col items-start gap-16">
+    <section id="about" className="flex w-full flex-col items-start gap-16">
       <h2 className="font-heading text-3xl uppercase text-moss sm:text-4xl md:text-5xl">
         About ME
       </h2>

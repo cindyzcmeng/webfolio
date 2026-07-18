@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import AboutMe from "./AboutMe";
+import Contact from "./Contact";
 import EducationList from "./EducationList";
 import ExperienceList from "./ExperienceList";
 import ProjectsList from "./ProjectsList";
@@ -24,6 +25,7 @@ export default function ResumeSection({ expanded }: ResumeSectionProps) {
           <ExperienceList />
         </div>
         <ProjectsList />
+        <Contact />
       </div>
     </motion.div>
   );

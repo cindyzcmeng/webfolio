@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import EnvelopeHero from "../components/envelope/EnvelopeHero";
+import NavBar from "../components/nav/NavBar";
+import type { NavSectionId } from "../components/nav/NavBar";
 import ResumeSection from "../components/resume/ResumeSection";
 import { smoothScrollTo } from "../lib/smoothScroll";
 import { EXPAND_SCROLL_DURATION_MS, RESUME_TRANSITION_DURATION_MS } from "../lib/motion";
@@ -7,6 +9,14 @@ import { getSavedScrollY } from "../lib/scrollMemory";
 import { lockScroll, unlockScroll } from "../lib/scrollLock";
 
 const SCROLL_DURATION = EXPAND_SCROLL_DURATION_MS;
+// Nav bar height plus a little breathing room, kept off the section's top
+// edge when a jump lands there.
+const NAV_OFFSET = 88;
+// Expanding (see handleToggleExpand) delays its scroll by 350ms, then takes
+// SCROLL_DURATION to land — a nav jump from the collapsed state has to wait
+// out that whole sequence before the resume section's layout is stable
+// enough to measure.
+const EXPAND_THEN_SCROLL_DELAY_MS = 350 + SCROLL_DURATION + 50;
 
 type HomeProps = {
   overlayOpen?: boolean;
@@ -52,8 +62,29 @@ export default function Home({ overlayOpen = false }: HomeProps) {
     }
   };
 
+  const scrollToSection = (id: NavSectionId) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const targetY = window.scrollY + el.getBoundingClientRect().top - NAV_OFFSET;
+    smoothScrollTo(targetY, SCROLL_DURATION);
+  };
+
+  const handleNavigate = (id: NavSectionId) => {
+    if (!expanded) {
+      handleToggleExpand();
+      window.setTimeout(() => scrollToSection(id), EXPAND_THEN_SCROLL_DELAY_MS);
+    } else {
+      scrollToSection(id);
+    }
+  };
+
+  const handleNavHome = () => {
+    smoothScrollTo(0, SCROLL_DURATION);
+  };
+
   return (
     <main className="relative w-full bg-white">
+      <NavBar onNavigate={handleNavigate} onHome={handleNavHome} />
       <div ref={heroRef}>
         <EnvelopeHero expanded={expanded} onToggleExpand={handleToggleExpand} />
       </div>
